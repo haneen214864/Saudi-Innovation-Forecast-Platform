@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أضف فكرتك الابتكارية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: transparent !important;
+            min-height: 100vh;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 280px;
+            background: linear-gradient(135deg, #0a4a8a 0%, #1a7d8d 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            padding: 35px 20px 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .rocket-icon {
+            font-size: 3.5em;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(-5deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin: 20px 0 15px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.15em;
+            opacity: 0.95;
+            font-weight: 500;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .main-container {
+            max-width: 2000px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+       
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr; 
+            gap: 25px;
+            align-items: start;
+            justify-content: center; 
+        }
+        
+       
+        .layout.results-active {
+            grid-template-columns: 1fr 400px; 
+        }
+
+        .container {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            padding: 40px 45px;
+            max-width: 800px; 
+            margin: 0 auto; 
+        }
+        
+        
+        .results-active .container {
+            max-width: none;
+            margin: 0;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .section-title h2 {
+            font-size: 1.6em;
+            color: #0a4a8a;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.95em;
+            margin-bottom: 35px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #1f2937;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .required {
+            color: #ef4444;
+            font-weight: 700;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 15px 18px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 500;
+            background: white;
+        }
+
+        .form-input:hover,
+        .form-textarea:hover,
+        .form-select:hover {
+            border-color: #cbd5e1;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #0a4a8a;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(10, 74, 138, 0.1);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: #9ca3af;
+            font-weight: 400;
+        }
+
+        .form-textarea {
+            min-height: 110px;
+            resize: vertical;
+            line-height: 1.7;
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath fill='%234b5563' d='M7 10L0 0h14z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left 18px center;
+            background-size: 12px;
+            padding-left: 45px;
+            cursor: pointer;
+        }
+
+        .budget-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .budget-input {
+            text-align: center;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 17px 28px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0a4a8a 0%, #1a7d8d 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(10, 74, 138, 0.3);
+            position: relative;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(10, 74, 138, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary.loading {
+            pointer-events: none;
+            opacity: 0.9;
+        }
+
+        .btn-primary.success {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            animation: successPulse 0.6s ease;
+        }
+
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn-primary span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary .icon {
+            font-size: 1.2em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4b5563;
+            border: 2px solid #e5e7eb;
+            font-weight: 600;
+        }
+
+        .btn-secondary:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .card-title {
+            font-size: 1.25em;
+            font-weight: 700;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-content {
+            padding: 20px;
+            line-height: 1.8;
+        }
+
+        .border-primary {
+            border: 2px solid #0a4a8a;
+        }
+
+        .border-primary-50 {
+            border: 1px solid rgba(10, 74, 138, 0.5);
+        }
+
+        .border-green-500-50 {
+            border: 1px solid rgba(34, 197, 94, 0.5);
+        }
+
+        .border-blue-500-50 {
+            border: 1px solid rgba(59, 130, 246, 0.5);
+        }
+
+        .border-orange-500-50 {
+            border: 1px solid rgba(249, 115, 22, 0.5);
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .text-primary {
+            color: #0a4a8a;
+        }
+
+        .text-secondary {
+            color: #1a7d8d;
+        }
+
+        .text-green-600 {
+            color: #16a34a;
+        }
+
+        .text-green-700 {
+            color: #15803d;
+        }
+
+        .text-blue-700 {
+            color: #1d4ed8;
+        }
+
+        .text-orange-700 {
+            color: #c2410c;
+        }
+
+        .text-yellow-600 {
+            color: #ca8a04;
+        }
+
+        .text-red-600 {
+            color: #dc2626;
+        }
+
+        .text-muted-foreground {
+            color: #6b7280;
+        }
+
+        .score-display {
+            text-align: center;
+        }
+
+      
+        .score-number {
+            font-size: 3em; 
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0a4a8a 0%, #1a7d8d 100%);
+            transition: width 0.6s ease;
+            border-radius: 999px;
+        }
+
+        .prediction-item {
+            margin-bottom: 20px;
+        }
+
+        .prediction-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .prediction-value {
+            font-weight: 700;
+        }
+
+        .bg-muted {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body::before {
+                height: 220px;
+            }
+            
+            .container {
+                padding: 35px 25px;
+                margin: 0 15px;
+                border-radius: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .rocket-icon {
+                font-size: 2.5em;
+            }
+
+            .budget-row {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column-reverse;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .score-number {
+                font-size: 2.5em;
+            }
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            opacity: 1;
+        }
+
+        ::selection {
+            background: rgba(10, 74, 138, 0.2);
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="rocket-icon"></div>
+        <h1>أضف فكرتك الابتكارية</h1>
+        <p>شارك فكرتك واحصل على تقييم ذكي من الذكاء الاصطناعي</p>
+    </div>
+
+    <div class="main-container">
+        <div id="mainLayout" class="layout">
+          
+            <div>
+                <div class="container">
+                    <div class="section-title">
+                        <h2>معلومات الفكرة</h2>
+                    </div>
+                    <div class="section-subtitle">
+                        املأ النموذج أدناه بتفاصيل فكرتك الابتكارية
+                    </div>
+
+                    <form id="ideaForm">
+                        <div class="form-group">
+                            <label class="form-label">
+                                عنوان الفكرة <span class="required">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                class="form-input" 
+                                id="ideaTitle"
+                                placeholder="ادخل عنواناً واضحاً ومختصراً لفكرتك"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                وصف الفكرة <span class="required">*</span>
+                            </label>
+                            <textarea 
+                                class="form-textarea" 
+                                id="ideaDescription"
+                                placeholder="اشرح فكرتك بالتفصيل. ما المشكلة التي تحلها؟ وكيف ستساهم في تحقيق رؤية 2030؟"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                القطاع <span class="required">*</span>
+                            </label>
+                            <select class="form-select" id="ideaSector" required>
+                                <option value="">اختر القطاع</option>
+                                <option value="tech">التقنية</option>
+                                <option value="health">الصحة</option>
+                                <option value="education">التعليم</option>
+                                <option value="energy">الطاقة</option>
+                                <option value="tourism">السياحة</option>
+                                <option value="finance">المالية</option>
+                                <option value="agriculture">الزراعة</option>
+                                <option value="transport">النقل</option>
+                                <option value="other">أخرى</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">الفئة المستهدفة</label>
+                            <textarea 
+                                class="form-textarea" 
+                                id="targetAudience"
+                                placeholder="من هم المستفيدون من هذه الفكرة؟"
+                                style="min-height: 90px;"
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">التأثير المتوقع</label>
+                            <textarea 
+                                class="form-textarea"
+                                id="expectedImpact" 
+                                placeholder="ما هو التأثير المتوقع لهذه الفكرة على المجتمع والاقتصاد؟"
+                                style="min-height: 90px;"
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">خطة التنفيذ</label>
+                            <textarea 
+                                class="form-textarea"
+                                id="implementationPlan" 
+                                placeholder="كيف يمكن تنفيذ هذه الفكرة؟ ما هي الخطوات الرئيسية؟"
+                                style="min-height: 90px;"
+                            ></textarea>
+                        </div>
+
+                        <div class="budget-row">
+                            <div class="form-group">
+                                <label class="form-label">الميزانية المقدرة (ريال سعودي)</label>
+                                <input 
+                                    type="number" 
+                                    class="form-input budget-input"
+                                    id="budget" 
+                                    placeholder="0"
+                                    min="0"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">الإطار الزمني</label>
+                                <input 
+                                    type="text" 
+                                    class="form-input"
+                                    id="timeframe" 
+                                    placeholder="مثال: 6 أشهر، سنة واحدة"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="button" class="btn btn-secondary" id="cancelBtn" onclick="closeOverlay()">إلغاء</button>
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                <span>إضافة الفكرة</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+               
+                <div id="aiAnalysisCard" class="card border-primary-50 hidden" style="margin-top: 25px;">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg class="icon text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                            التحليل الذكي
+                        </div>
+                    </div>
+                    <div class="card-content" id="aiAnalysisContent"></div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div id="sidebarContent" class="hidden">
+                
+                    <div class="card border-primary">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <svg class="icon text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                </svg>
+                                نسبة النجاح المتوقعة
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="score-display">
+                                <div class="score-number" id="aiScoreNumber">--</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="aiScoreProgress" style="width: 0%"></div>
+                                </div>
+                                <div class="bg-muted" id="aiPredictionText"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <svg class="icon text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                تفاصيل التقييم
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="prediction-item">
+                                <div class="prediction-label">
+                                    <span>التأثير</span>
+                                    <span class="prediction-value" id="impactScore">--%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="impactProgress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="prediction-item">
+                                <div class="prediction-label">
+                                    <span>الجدوى</span>
+                                    <span class="prediction-value" id="feasibilityScore">--%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="feasibilityProgress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="prediction-item">
+                                <div class="prediction-label">
+                                    <span>الابتكار</span>
+                                    <span class="prediction-value" id="innovationScore">--%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="innovationProgress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="prediction-item">
+                                <div class="prediction-label">
+                                    <span>التوافق مع رؤية 2030</span>
+                                    <span class="prediction-value" id="alignmentScore">--%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="alignmentProgress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   ->
+                    <div class="card border-green-500-50" id="recommendationsCard">
+                        <div class="card-header">
+                            <div class="card-title text-green-700">
+                                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                </svg>
+                                التوصيات
+                            </div>
+                        </div>
+                        <div class="card-content" id="recommendationsContent"></div>
+                    </div>
+
+                    
+                    <div class="card border-blue-500-50" id="opportunitiesCard">
+                        <div class="card-header">
+                            <div class="card-title text-blue-700">
+                                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                                الفرص
+                            </div>
+                        </div>
+                        <div class="card-content" id="opportunitiesContent"></div>
+                    </div>
+
+         
+                    <div class="card border-orange-500-50" id="risksCard">
+                        <div class="card-header">
+                            <div class="card-title text-orange-700">
+                                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                                المخاطر
+                            </div>
+                        </div>
+                        <div class="card-content" id="risksContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+ <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script>
+        const firebaseConfig = {
+        apiKey: "AIzaSyAkb-wT7BCuXJ5plGKBBUfFVgY6uZLsHUI",
+        authDomain: "sis-project-a954b.firebaseapp.com",
+        projectId: "sis-project-a954b",
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainLayout = document.getElementById('mainLayout');
+            const ideaForm = document.getElementById('ideaForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const aiAnalysisCard = document.getElementById('aiAnalysisCard');
+            const aiAnalysisContent = document.getElementById('aiAnalysisContent');
+            const sidebarContent = document.getElementById('sidebarContent');
+            const aiScoreNumber = document.getElementById('aiScoreNumber');
+            const aiScoreProgress = document.getElementById('aiScoreProgress');
+            const aiPredictionText = document.getElementById('aiPredictionText');
+            const recommendationsContent = document.getElementById('recommendationsContent');
+            const opportunitiesContent = document.getElementById('opportunitiesContent');
+            const risksContent = document.getElementById('risksContent');
+            const cancelBtn = document.getElementById('cancelBtn');
+
+          
+            const scoreElements = {
+                impact: { score: document.getElementById('impactScore'), progress: document.getElementById('impactProgress') },
+                feasibility: { score: document.getElementById('feasibilityScore'), progress: document.getElementById('feasibilityProgress') },
+                innovation: { score: document.getElementById('innovationScore'), progress: document.getElementById('innovationProgress') },
+                alignment: { score: document.getElementById('alignmentScore'), progress: document.getElementById('alignmentProgress') }
+            };
+
+          
+            const updateUI = (data) => {
+              
+                mainLayout.classList.add('results-active');
+                
+                aiAnalysisCard.classList.remove('hidden');
+                sidebarContent.classList.remove('hidden');
+
+                const overallScore = data.overall_score;
+                aiScoreNumber.textContent = `${overallScore}%`;
+                aiScoreProgress.style.width = `${overallScore}%`;
+                aiPredictionText.textContent = data.prediction_text;
+
+           
+                aiAnalysisContent.innerHTML = data.analysis_html;
+                recommendationsContent.innerHTML = data.recommendations_html;
+                opportunitiesContent.innerHTML = data.opportunities_html;
+                risksContent.innerHTML = data.risks_html;
+
+             
+                for (const key in data.scores) {
+                    if (scoreElements[key]) {
+                        const score = data.scores[key];
+                        scoreElements[key].score.textContent = `${score}%`;
+                        scoreElements[key].progress.style.width = `${score}%`;
+                    }
+                }
+
+                
+                submitBtn.classList.add('success');
+                submitBtn.querySelector('span').textContent = 'تم التقييم بنجاح!';
+                setTimeout(() => {
+                    submitBtn.classList.remove('success');
+                    submitBtn.querySelector('span').textContent = 'إضافة الفكرة';
+                }, 2000);
+            };
+
+       
+            const setLoading = (isLoading) => {
+                if (isLoading) {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('loading');
+                    submitBtn.querySelector('span').textContent = 'جاري التحليل...';
+                    cancelBtn.disabled = true;
+                } else {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('loading');
+                    submitBtn.querySelector('span').textContent = 'إضافة الفكرة';
+                    cancelBtn.disabled = false;
+                }
+            };
+
+        
+            ideaForm.addEventListener('submit', async (e) => {
+                e.preventDefault(); 
+                setLoading(true);
+
+                
+                const ideaData = {
+                    title: document.getElementById('ideaTitle').value,
+                    description: document.getElementById('ideaDescription').value,
+                    sector: document.getElementById('ideaSector').value,
+                    targetAudience: document.getElementById('targetAudience').value,
+                    expectedImpact: document.getElementById('expectedImpact').value,
+                    implementationPlan: document.getElementById('implementationPlan').value,
+                    budget: document.getElementById('budget').value,
+                    timeframe: document.getElementById('timeframe').value,
+                };
+
+              
+                const API_URL = 'https://api.yourdomain.com/ai-score'; 
+
+                try {
+                    // 🔹 Add these lines
+                    const user = firebase.auth().currentUser;
+                    if (!user) {
+                        alert("يجب تسجيل الدخول أولاً قبل إضافة فكرة.");
+                        setLoading(false);
+                        return;
+                    }
+
+                    const simulatedResponse = await new Promise(resolve => setTimeout(() => {
+                       
+                        const generateScore = () => Math.floor(Math.random() * 40) + 60; // بين 60 و 99
+                        const overall = generateScore();
+                        
+                        resolve({
+                            ok: true,
+                            json: () => Promise.resolve({
+                                overall_score: overall,
+                                prediction_text: overall >= 85 ? 'الفكرة واعدة جداً وتستحق الاستثمار.' : 'الفكرة جيدة، تحتاج لبعض التحسينات الاستراتيجية.',
+                                analysis_html: `
+                                    <p><strong>ملخص التحليل:</strong> تم تحليل فكرتك بعمق باستخدام نموذج الذكاء الاصطناعي المتقدم. تظهر النتائج أن الفكرة تتمتع بإمكانات عالية، خاصة في مجال <strong>${ideaData.sector}</strong>.</p>
+                                    <p><strong>نقاط القوة:</strong> وضوح الوصف، وتحديد دقيق للفئة المستهدفة.</p>
+                                    <p><strong>نقاط الضعف:</strong> الميزانية المقدرة قد تكون أقل من اللازم لتغطية جميع مراحل التنفيذ المقترحة.</p>
+                                `,
+                                recommendations_html: `
+                                    <ul>
+                                        <li><span class="text-green-600">✓</span> <strong>تعزيز الجدوى:</strong> يوصى بتقديم دراسة جدوى أولية أكثر تفصيلاً للميزانية والإطار الزمني.</li>
+                                        <li><span class="text-blue-700">⟳</span> <strong>التوسع في التأثير:</strong> استكشاف أسواق أو قطاعات إضافية يمكن أن تستفيد من الفكرة لزيادة نطاق التأثير.</li>
+                                        <li><span class="text-yellow-600">⟳</span> <strong>الابتكار:</strong> إضافة ميزة تقنية فريدة لتمييز الفكرة عن المنافسين المحتملين.</li>
+                                    </ul>
+                                `,
+                                opportunities_html: `
+                                    <ul>
+                                        <li><span class="text-blue-700">★</span> <strong>السوق:</strong> هناك فجوة واضحة في السوق المحلي لهذا النوع من الحلول.</li>
+                                        <li><span class="text-blue-700">★</span> <strong>الدعم الحكومي:</strong> الفكرة تتوافق مع برامج الدعم الحكومي للقطاع ${ideaData.sector}.</li>
+                                    </ul>
+                                `,
+                                risks_html: `
+                                    <ul>
+                                        <li><span class="text-orange-700">⚠</span> <strong>المنافسة:</strong> قد تظهر منافسة قوية من شركات عالمية في المستقبل.</li>
+                                        <li><span class="text-orange-700">⚠</span> <strong>التنظيم:</strong> قد تتطلب الفكرة تراخيص تنظيمية معقدة.</li>
+                                    </ul>
+                                `,
+                                scores: {
+                                    impact: generateScore(),
+                                    feasibility: generateScore(),
+                                    innovation: generateScore(),
+                                    alignment: generateScore()
+                                }
+                            })
+                        });
+                    }, 1500)); 
+
+                    const result = await simulatedResponse.json();
+                    updateUI(result);
+
+                     ideaData.userId = user.uid;
+                    ideaData.userName = user.displayName || user.email;
+                    ideaData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+
+                    await firebase.firestore().collection("ideas").add(ideaData);
+                    
+
+                } catch (error) {
+                    console.error('خطأ في التقييم:', error);
+                    alert('حدث خطأ أثناء تقييم الفكرة. يرجى المحاولة مرة أخرى.');
+                } finally {
+                    setLoading(false);
+                }
+            });
+
+
+            cancelBtn.addEventListener('click', () => {
+                 
+                mainLayout.classList.remove('results-active');
+                aiAnalysisCard.classList.add('hidden');
+                sidebarContent.classList.add('hidden');
+                ideaForm.reset();
+                window.location.href = "ideas.html";
+            });
+        });
+        function closeOverlay(){
+                window.parent.postMessage('closeOverlay', '*');
+            }
+    </script>
+</body>
+</html>

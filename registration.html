@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>registration</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* keep your original styling */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .containerLogin {
+      background: #e6e6e6;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      width: 300px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 1rem;
+      color: #203a43;
+    }
+    input {
+      width:90%;
+      padding: 10px;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 1rem;
+      background: #203a43;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2c5364;
+    }
+    
+    .skip-button {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .toggle-text {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    .form-section.hidden { display: none; }
+    .status-message {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.status-message.success { color: green; }
+.status-message.error { color: red; }
+.status-message.info { color: blue; }
+  </style>
+</head>
+<body>
+  
+  <div class="containerLogin">
+    <a href="ideas.html" class="skip-button">Skip for now</a>
+    <!-- Login Form -->
+    <div id="loginForm" class="form-section">
+      <h2>تسجيل الدخول</h2>
+
+      <button type="button" onclick="loginWith('google')" style="background: #4285F4; margin-bottom: 0.5rem;">
+        تسجيل الدخول عبر Google
+      </button>
+      <button type="button" onclick="loginWith('microsoft')" style="background: #00A4EF; margin-bottom: 0.5rem;">
+        تسجيل الدخول عبر Microsoft
+      </button>
+      <button type="button" onclick="loginWith('apple')" style="background: #000; margin-bottom: 0.5rem;">
+        تسجيل الدخول عبر Apple
+      </button>
+
+      <div style="margin: 1.5rem 0; display: flex; align-items: center;">
+        <hr style="flex: 1; border: none; border-top: 1px solid #ccc;">
+        <span style="margin: 0 0.5rem; color: #999; font-size: 0.9rem;">أو</span>
+        <hr style="flex: 1; border: none; border-top: 1px solid #ccc;">
+      </div>
+
+      <form id="loginFormElement">
+        <input id="loginEmail" type="email" placeholder="البريد الإلكتروني" required>
+        <input id="loginPassword" type="password" placeholder="كلمة المرور" required>
+        <button type="submit">دخول</button>
+      </form>
+<p id="loginStatus" class="status-message"></p>
+
+
+      <p class="toggle-text">ليس لديك حساب؟ <a href="#" onclick="toggleForm()">تسجيل الآن</a></p>
+    </div>
+
+    <!-- Register Form -->
+    <div id="registerForm" class="form-section hidden">
+      <h2>إنشاء حساب</h2>
+
+      <button type="button" onclick="loginWith('google')" style="background: #4285F4; margin-bottom: 0.5rem;">
+        تسجيل عبر Google
+      </button>
+      <button type="button" onclick="loginWith('microsoft')" style="background: #00A4EF; margin-bottom: 0.5rem;">
+        تسجيل عبر Microsoft
+      </button>
+      <button type="button" onclick="loginWith('apple')" style="background: #000; margin-bottom: 0.5rem;">
+        تسجيل عبر Apple
+      </button>
+
+      <div style="margin: 1.5rem 0; display: flex; align-items: center;">
+        <hr style="flex: 1; border: none; border-top: 1px solid #ccc;">
+        <span style="margin: 0 0.5rem; color: #999; font-size: 0.9rem;">أو</span>
+        <hr style="flex: 1; border: none; border-top: 1px solid #ccc;">
+      </div>
+
+      <form id="registerFormElement">
+        <input id="registerName" type="text" placeholder="الاسم الكامل" required>
+        <input id="registerEmail" type="email" placeholder="البريد الإلكتروني" required>
+        <input id="registerPassword" type="password" placeholder="كلمة المرور" required>
+        <button type="submit">إنشاء حساب</button>
+      </form>
+
+<!-- Message placeholder -->
+<p id="registerStatus" class="status-message"></p>
+
+
+      <p class="toggle-text"><a href="#" onclick="toggleForm()">العودة إلى تسجيل الدخول</a></p>
+    </div>
+  </div>
+
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+  apiKey: "AIzaSyAkb-wT7BCuXJ5plGKBBUfFVgY6uZLsHUI",
+  authDomain: "sis-project-a954b.firebaseapp.com",
+  projectId: "sis-project-a954b",
+  storageBucket: "sis-project-a954b.firebasestorage.app",
+  messagingSenderId: "906494664986",
+  appId: "1:906494664986:web:b3580ef482535dbcb90ca3"
+};
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function toggleForm() {
+      const loginForm = document.getElementById('loginForm');
+      const registerForm = document.getElementById('registerForm');
+      loginForm.classList.toggle('hidden');
+      registerForm.classList.toggle('hidden');
+    }
+
+    document.getElementById('loginFormElement').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const loginStatus = document.getElementById('loginStatus');
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          loginStatus.textContent = "تم تسجيل الدخول بنجاح!";
+          loginStatus.className = "status-message success";
+          window.location.href = "ideas.html";
+        })
+        .catch((error) => {
+          loginStatus.textContent = "خطأ في تسجيل الدخول: ";
+          loginStatus.className = "status-message error";
+        });
+    });
+
+    document.getElementById('registerFormElement').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('registerName').value;
+      const email = document.getElementById('registerEmail').value;
+      const password = document.getElementById('registerPassword').value;
+      const registerStatus = document.getElementById('registerStatus');
+
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          return userCredential.user.updateProfile({ displayName: name });
+        })
+        .then(() => {
+          registerStatus.textContent = "تم إنشاء الحساب بنجاح!";
+          registerStatus.className = "status-message success";
+          window.location.href = "ideas.html";
+        })
+        .catch((error) => {
+          registerStatus.textContent = error.message;
+          registerStatus.className = "status-message error";
+        });
+    });
+
+    function loginWith(providerName) {
+      let provider;
+      if (providerName === 'google') {
+        provider = new firebase.auth.GoogleAuthProvider();
+      } else if (providerName === 'microsoft') {
+        provider = new firebase.auth.OAuthProvider('microsoft.com');
+      } else if (providerName === 'apple') {
+        provider = new firebase.auth.OAuthProvider('apple.com');
+      } else {
+        return;
+      }
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          window.location.href = "ideas.html";
+        })
+        .catch((error) => {
+          alert("خطأ في تسجيل الدخول: " + error.message);
+        });
+    }
+  </script>
+</body>
+</html>
